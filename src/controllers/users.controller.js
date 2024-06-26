@@ -2,8 +2,10 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { Users } from "../models/users.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
 const secretKey = "dasdas";
+const saltRounds = 10;
 
 const registerUser = asyncHandler(async (req, res) => {
   const { email, username, password } = req.body;
@@ -18,10 +20,10 @@ const registerUser = asyncHandler(async (req, res) => {
   if (existingUser) {
     throw new ApiError(409, "User with this email already exists");
   }
-
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
   const newUser = await Users.create({
     email: email,
-    password: password,
+    password:hashedPassword,
     username: username.toLowerCase(),
   });
 

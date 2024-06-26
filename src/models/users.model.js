@@ -11,7 +11,7 @@ const Users = sequelize.define("Register", {
   },
   email: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
     unique: true,
     lowercase: true,
     trim: true,
@@ -21,6 +21,10 @@ const Users = sequelize.define("Register", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  isAdmin:{
+    type:DataTypes.BOOLEAN,
+    default:false
+  }
 
  
 });
